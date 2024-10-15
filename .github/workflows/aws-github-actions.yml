@@ -32,7 +32,61 @@ jobs:
       # terraform fmt
       - name: terraform fmt
         run: terraform fmt -check -recursive
+      # terraform init
       - name: terraform init
         run: terraform -chdir=envs/dev init
+      # terraform validate
       - name: terraform validate
         run: terraform -chdir=envs/dev validate
+  stg-validate:
+    runs-on: ubuntu-latest
+    steps:
+      # git clone
+      - name: Git clone the repository
+        uses: actions/checkout@v4
+      # AWS Credential
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: arn:aws:iam::585008082130:role/FullAccessForGitHubActions
+          role-session-name: stg-validate-session
+          aws-region: ap-northeast-1
+      # Debug
+      - name:  debug
+        run: |
+          aws s3 ls
+          ls -lR
+      # terraform fmt
+      - name: terraform fmt
+        run: terraform fmt -check -recursive
+      # terraform init
+      - name: terraform init
+        run: terraform -chdir=envs/stg init
+      # terraform validate
+      - name: terraform validate
+        run: terraform -chdir=envs/stg validate
+  dev-apply:
+    runs-on: ubuntu-latest
+    needs: [dev-validate,stg-validate]
+    steps:
+      # git clone
+      - name: Git clone the repository
+        uses: actions/checkout@v4
+      # AWS Credential
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: arn:aws:iam::842675978740:role/FullAccessForGitHubActions
+          role-session-name: dev-validate-session
+          aws-region: ap-northeast-1
+      # Debug
+      - name:  debug
+        run: |
+          aws s3 ls
+          ls -lR
+      # terraform init
+      - name: terraform init
+        run: terraform -chdir=envs/dev init
+      # terraform plan
+      - name: terraform plan
+        run: terraform -chdir=envs/dev plan
