@@ -87,9 +87,9 @@ jobs:
       # terraform init
       - name: terraform init
         run: terraform -chdir=envs/dev init
-      # terraform plan
-      - name: terraform plan
-        run: terraform -chdir=envs/dev plan
+      # terraform apply
+      - name: terraform apply
+        run: terraform -chdir=envs/dev apply
   stg-plan:
     runs-on: ubuntu-latest
     needs: [dev-validate,stg-validate]
