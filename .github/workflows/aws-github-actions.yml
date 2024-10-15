@@ -90,3 +90,27 @@ jobs:
       # terraform plan
       - name: terraform plan
         run: terraform -chdir=envs/dev plan
+  stg-plan:
+    runs-on: ubuntu-latest
+    steps:
+      # git clone
+      - name: Git clone the repository
+        uses: actions/checkout@v4
+      # AWS Credential
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: arn:aws:iam::585008082130:role/FullAccessForGitHubActions
+          role-session-name: stg-validate-session
+          aws-region: ap-northeast-1
+      # Debug
+      - name:  debug
+        run: |
+          aws s3 ls
+          ls -lR
+      # terraform init
+      - name: terraform init
+        run: terraform -chdir=envs/stg init
+      # terraform plan
+      - name: terraform plan
+        run: terraform -chdir=envs/stg plan
