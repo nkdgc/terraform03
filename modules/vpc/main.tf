@@ -18,7 +18,7 @@ resource "aws_internet_gateway" "igw01" {
 # NAT ゲートウェイの作成
 resource "aws_eip" "eip-natgw01" {
   # count  = 1  // 作成するEIPの数
-  domain = "vpc"  // VPC内でEIPを使用（vpc = trueの代わりに）
+  domain = "vpc" // VPC内でEIPを使用（vpc = trueの代わりに）
 }
 
 resource "aws_nat_gateway" "natgw01" {
