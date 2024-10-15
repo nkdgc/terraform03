@@ -32,3 +32,7 @@ jobs:
       # terraform fmt
       - name: terraform fmt
         run: terraform fmt -check -recursive
+      - name: terraform init
+        run: terraform -chdir=envs/dev init
+      - name: terraform validate
+        run: terraform -chdir=envs/dev validate
