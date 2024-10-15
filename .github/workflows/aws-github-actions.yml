@@ -1,0 +1,34 @@
+name: AWS Terraform workflow
+on:
+  push:
+    branches:
+      - main
+      # - staging
+      # - development
+env:
+  AWS_REGION : "ap-northeast-1"
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
+jobs:
+  dev-validate:
+    runs-on: ubuntu-latest
+    steps:
+      # git clone
+      - name: Git clone the repository
+        uses: actions/checkout@v4
+      # AWS Credential
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: arn:aws:iam::842675978740:role/FullAccessForGitHubActions
+          role-session-name: dev-validate-session
+          aws-region: ap-northeast-1
+      # Debug
+      - name:  debug
+        run: |
+          aws s3 ls
+          ls -lR
+      # terraform fmt
+      - name: terraform fmt
+        run: terraform fmt -check -recursive
