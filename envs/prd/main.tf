@@ -9,3 +9,8 @@
 #   subnet-id   = module.vpc.private-subnet01-id
 #   vpc-id      = module.vpc.vpc-id
 # }
+
+module "network" {
+  source = "../../modules/network"
+  name = "vpc01-vpc"
+}
