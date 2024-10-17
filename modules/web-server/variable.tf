@@ -1,3 +1,3 @@
-variable "name-prefix" {}
-variable "subnet-id" {}
-variable "vpc-id" {}
+# variable "name-prefix" {}
+# variable "subnet-id" {}
+# variable "vpc-id" {}

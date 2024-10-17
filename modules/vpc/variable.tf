@@ -1,1 +1,1 @@
-variable "name-prefix" {}
+# variable "name-prefix" {}
