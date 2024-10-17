@@ -11,7 +11,7 @@ resource "aws_vpc" "vpc01-vpc" {
 }
 
 resource "aws_subnet" "public-subnet01" {
-  vpc_id = aws_vpc.vpc01-vpc.id
+  vpc_id                                         = aws_vpc.vpc01-vpc.id
   assign_ipv6_address_on_creation                = false
   availability_zone                              = "ap-northeast-1a"
   cidr_block                                     = "10.0.0.0/20"
@@ -25,7 +25,7 @@ resource "aws_subnet" "public-subnet01" {
   map_public_ip_on_launch                        = false
   outpost_arn                                    = null
   private_dns_hostname_type_on_launch            = "ip-name"
-  tags                                           = {
-      "Name" = "vpc01-subnet-public1-ap-northeast-1a"
+  tags = {
+    "Name" = "vpc01-subnet-public1-ap-northeast-1a"
   }
 }
