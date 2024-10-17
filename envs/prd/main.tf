@@ -12,5 +12,5 @@
 
 module "network" {
   source = "../../modules/network"
-  name = "vpc01-vpc"
+  name   = "vpc01-vpc"
 }
