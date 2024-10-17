@@ -11,6 +11,7 @@
 # }
 
 module "network" {
-  source = "../../modules/network"
-  name   = "vpc01-vpc"
+  source   = "../../modules/network"
+  vpc-name = "vpc01-vpc"
+  igw-name = "vpc01-igw"
 }

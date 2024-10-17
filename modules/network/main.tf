@@ -6,7 +6,7 @@ resource "aws_vpc" "vpc01-vpc" {
   enable_network_address_usage_metrics = false
   instance_tenancy                     = "default"
   tags = {
-    "Name" = "${var.name}"
+    "Name" = "${var.vpc-name}"
   }
 }
 
@@ -27,5 +27,37 @@ resource "aws_subnet" "public-subnet01" {
   private_dns_hostname_type_on_launch            = "ip-name"
   tags = {
     "Name" = "vpc01-subnet-public1-ap-northeast-1a"
+  }
+}
+
+resource "aws_internet_gateway" "igw01" {
+  vpc_id = aws_vpc.vpc01-vpc.id
+  tags = {
+    "Name" = "vpc01-igw"
+  }
+}
+
+resource "aws_route_table" "rtb-public" {
+  vpc_id           = aws_vpc.vpc01-vpc.id
+  propagating_vgws = []
+  route = [
+    {
+      carrier_gateway_id         = null
+      cidr_block                 = "0.0.0.0/0"
+      core_network_arn           = null
+      destination_prefix_list_id = null
+      egress_only_gateway_id     = null
+      gateway_id                 = aws_internet_gateway.igw01.id
+      ipv6_cidr_block            = null
+      local_gateway_id           = null
+      nat_gateway_id             = null
+      network_interface_id       = null
+      transit_gateway_id         = null
+      vpc_endpoint_id            = null
+      vpc_peering_connection_id  = null
+    },
+  ]
+  tags = {
+    "Name" = "vpc01-rtb-public"
   }
 }
